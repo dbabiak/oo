@@ -1,16 +1,24 @@
-#!/usr/bin/env python3.8
+#!/usr/bin/env python3
 
 import os
+import sys
 from typing import List
+
 
 Filename = str
 MTime = float
 SLEEP_TIME_SECS = 0.2
 
 
-with open("/home/dmb/.oo") as oo_config:
+if not os.path.isfile("~/.oo"):
+    os.system(f"cp {sys.path[0]}/default_black_list ~/.oo")
+
+
+with open(f"{os.environ['HOME']}/.oo") as oo_config:
     BLACK_LIST = tuple(
-        pat for pat in map(str.strip, oo_config) if not pat.startswith("#")
+        pat
+        for pat in map(str.strip, oo_config)
+        if not pat.startswith("#") and not pat.isspace()
     )
 
 
@@ -18,7 +26,11 @@ def blacklisted(path: str) -> bool:
     import fnmatch
 
     basename = os.path.basename(path)
-    return any(fnmatch.fnmatch(basename, pat) for pat in BLACK_LIST)
+    return any(
+        fnmatch.fnmatch(basename, pat)
+        for pat in map(str.strip, BLACK_LIST)
+        if not pat.isspace()
+    )
 
 
 def get_all_relative_paths(root: str) -> List[Filename]:

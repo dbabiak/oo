@@ -1,0 +1,24 @@
+# blacklist
+**/__ignore_*
+.idea
+*~
+*#
+.#*
+*.swp
+*.un~
+tags
+*.pyc
+.coverage
+.cache
+.mypy_cache
+.pytest_cache
+dmypy.json
+.dmypy.json
+.requirements-installed
+__pycache__
+*venv
+**/*venv
+.venv
+*.egg-info/
+.git
+target
